@@ -39,3 +39,21 @@ module "loadbalancing" {
   listener_port           = 80
   listener_protocol       = "HTTP"
 }
+
+module "compute" {
+  source          = "./compute"
+  instance_type   = "t2.micro"
+  instance_count  = 1
+  public_sg       = module.networking.public_sg
+  public_subnet   = module.networking.public_subnets
+  vol_size        = 10
+  key_name        = "kryz_key"
+  public_key_path = "~/.ssh/id_rsa.pub"
+  user_data_path  = "${path.root}/userdata.tpl"
+  dbendpoint      = module.database.db_endpoint
+  dbuser          = var.dbuser
+  dbpassword      = var.dbpassword
+  dbname          = var.dbname
+  tg_port = 80
+  lb_target_group_arn = ""
+}

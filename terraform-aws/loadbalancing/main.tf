@@ -19,7 +19,7 @@ resource "aws_alb_target_group" "kryz_tg" {
   }
 
   lifecycle {
-    ignore_changes = [name]
+    ignore_changes        = [name]
     create_before_destroy = true
   }
 
